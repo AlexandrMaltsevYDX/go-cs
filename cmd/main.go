@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 
+	"github.com/gofiber/contrib/fiberzerolog"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/log"
-	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/rs/zerolog/log"
 
 	"github.com/AlexandrMaltsevYDX/go-cs/config"
 	"github.com/AlexandrMaltsevYDX/go-cs/internal/home"
@@ -18,18 +18,20 @@ func main() {
 	// load configurations
 	cfg := config.NewConfig()
 
-	// setup logger
-	log.SetLevel(cfg.Log.Level)
+	// setup zerolog
+	log.Logger = cfg.Log.NewLogger()
 
-	log.Info("Database URL:", cfg.Database.URL)
-	log.Info("Debug mode:", cfg.Server.Debug)
+	log.Info().Str("url", cfg.Database.URL).Msg("Database")
+	log.Info().Bool("debug", cfg.Server.Debug).Msg("Debug mode")
 
 	// create fiber app
 	app := fiber.New()
 
 	// apply middlewares
 	app.Use(recover.New())
-	app.Use(logger.New())
+	app.Use(fiberzerolog.New(fiberzerolog.Config{
+		Logger: &log.Logger,
+	}))
 	home.NewHandler(app)
 
 	app.Listen(fmt.Sprintf(":%d", cfg.Server.Port))

@@ -1,29 +1,55 @@
 package config
 
-import "github.com/gofiber/fiber/v2/log"
+import (
+	"os"
+
+	"github.com/rs/zerolog"
+)
 
 type LogConfig struct {
-	Level log.Level
+	Level  zerolog.Level
+	Pretty bool
 }
 
 func NewLogConfig() *LogConfig {
 	level := getString("LOG_LEVEL", "info")
+	pretty := getBool("LOG_PRETTY", false)
 
-	var logLevel log.Level
+	return &LogConfig{
+		Level:  parseLogLevel(level),
+		Pretty: pretty,
+	}
+}
+
+func parseLogLevel(level string) zerolog.Level {
 	switch level {
 	case "trace":
-		logLevel = log.LevelTrace
+		return zerolog.TraceLevel
 	case "debug":
-		logLevel = log.LevelDebug
+		return zerolog.DebugLevel
 	case "info":
-		logLevel = log.LevelInfo
+		return zerolog.InfoLevel
 	case "warn":
-		logLevel = log.LevelWarn
+		return zerolog.WarnLevel
 	case "error":
-		logLevel = log.LevelError
+		return zerolog.ErrorLevel
 	default:
-		logLevel = log.LevelInfo
+		return zerolog.InfoLevel
+	}
+}
+
+// NewLogger creates a zerolog.Logger based on config
+func (c *LogConfig) NewLogger() zerolog.Logger {
+	var logger zerolog.Logger
+
+	switch c.Pretty {
+	case true:
+		logger = zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr}).With().Timestamp().Logger()
+	default:
+		logger = zerolog.New(os.Stderr).With().Timestamp().Logger()
 	}
 
-	return &LogConfig{Level: logLevel}
+	zerolog.SetGlobalLevel(c.Level)
+
+	return logger
 }

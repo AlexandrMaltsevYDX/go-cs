@@ -2,7 +2,7 @@ package home
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/log"
+	"github.com/rs/zerolog/log"
 )
 
 type HomeHandler struct {
@@ -20,13 +20,13 @@ func NewHandler(router fiber.Router) {
 }
 
 func (h *HomeHandler) home(c *fiber.Ctx) error {
-	log.Debug("Debug: home endpoint called")
-	log.Info("Info: home endpoint called")
-	log.Warn("Warn: home endpoint called")
+	log.Debug().Msg("Debug: home endpoint called")
+	log.Info().Msg("Info: home endpoint called")
+	log.Warn().Msg("Warn: home endpoint called")
 	return c.SendString("Hello!")
 }
 
 func (h *HomeHandler) error(c *fiber.Ctx) error {
-	log.Error("Error: error endpoint called")
+	log.Error().Msg("Error: error endpoint called")
 	return c.SendString("Error")
 }
