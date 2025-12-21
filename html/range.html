@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Range Example</title>
+</head>
+
+<body>
+    <h1>Range в Go Templates</h1>
+
+    <h2>Простой массив строк</h2>
+    <ul>
+        {{range .Names}}
+        <li>{{.}}</li>
+        {{end}}
+    </ul>
+
+    <h2>Range с индексом</h2>
+    <ul>
+        {{range $i, $name := .Names}}
+        <li>{{$i}}: {{$name}}</li>
+        {{end}}
+    </ul>
+
+    <h2>Массив структур</h2>
+    <ul>
+        {{range .Users}}
+        <li>{{.Id}} — {{.Name}}</li>
+        {{end}}
+    </ul>
+
+    <h2>Range с else (пустой массив)</h2>
+    {{range .Empty}}
+    <li>{{.}}</li>
+    {{else}}
+    <p>Список пуст</p>
+    {{end}}
+
+    <h2>Range с условием внутри</h2>
+    <ul>
+        {{range .Users}}
+        {{if gt .Id 1}}
+        <li class="highlight">{{.Name}} (ID > 1)</li>
+        {{else}}
+        <li>{{.Name}}</li>
+        {{end}}
+        {{end}}
+    </ul>
+</body>
+
+</html>

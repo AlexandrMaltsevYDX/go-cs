@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Functions & Variables</title>
+</head>
+<body>
+    <h1>Функции и переменные в Go Templates</h1>
+
+    <h2>Переменные</h2>
+    
+    <!-- Объявление переменной -->
+    {{ $name := "Привет" }}
+    <p>Переменная: {{ $name }}</p>
+
+    <!-- Переприсваивание -->
+    {{ $name = "Пока" }}
+    <p>После изменения: {{ $name }}</p>
+
+    <!-- Переменная из данных -->
+    {{ $user := .Username }}
+    <p>Из данных: {{ $user }}</p>
+
+    <h2>Встроенные функции</h2>
+
+    <!-- len - длина -->
+    <p>Длина массива: {{ len .Items }}</p>
+
+    <!-- index - элемент по индексу -->
+    <p>Первый элемент: {{ index .Items 0 }}</p>
+    <p>Второй элемент: {{ index .Items 1 }}</p>
+
+    <!-- printf - форматирование -->
+    <p>Форматирование: {{ printf "Имя: %s, Возраст: %d" .Username .Age }}</p>
+
+    <!-- print, println -->
+    <p>{{ print "Hello " "World" }}</p>
+
+    <h2>Кастомные функции</h2>
+
+    <!-- ToUpper через pipe -->
+    <p>Upper: {{ .Username | ToUpper }}</p>
+
+    <!-- Add -->
+    <p>5 + 3 = {{ add 5 3 }}</p>
+
+    <!-- Цепочка pipe -->
+    <p>Цепочка: {{ .LowerText | ToUpper }}</p>
+
+    <h2>Функции сравнения</h2>
+    <ul>
+        <li>eq (==): {{ eq .Age 25 }}</li>
+        <li>ne (!=): {{ ne .Age 0 }}</li>
+        <li>lt (<): {{ lt .Age 30 }}</li>
+        <li>le (<=): {{ le .Age 25 }}</li>
+        <li>gt (>): {{ gt .Age 18 }}</li>
+        <li>ge (>=): {{ ge .Age 25 }}</li>
+    </ul>
+
+    <h2>Логические функции</h2>
+    <ul>
+        <li>and: {{ and true true }}</li>
+        <li>or: {{ or false true }}</li>
+        <li>not: {{ not false }}</li>
+    </ul>
+
+    <h2>Переменные в range</h2>
+    <ul>
+    {{ range $i, $item := .Items }}
+        {{ $doubled := add $i $i }}
+        <li>#{{ $i }} (doubled: {{ $doubled }}): {{ $item }}</li>
+    {{ end }}
+    </ul>
+
+    <h2>Область видимости переменных</h2>
+    {{ $outer := "Внешняя" }}
+    <p>До блока: {{ $outer }}</p>
+    
+    {{ if true }}
+        {{ $inner := "Внутренняя" }}
+        <p>Внутри if - inner: {{ $inner }}</p>
+        <p>Внутри if - outer: {{ $outer }}</p>
+    {{ end }}
+    
+    <p>После блока: {{ $outer }}</p>
+    <!-- $inner здесь недоступна -->
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>If-Else Example</title>
+</head>
+
+<body>
+    <h1>If-Else в Go Templates</h1>
+
+    <h2>Простой if</h2>
+    {{if .IsAdmin}}
+    <p>Добро пожаловать, Администратор!</p>
+    {{end}}
+
+    <h2>If-Else</h2>
+    {{if .IsLoggedIn}}
+    <p>Привет, {{.Username}}!</p>
+    {{else}}
+    <p>Пожалуйста, войдите в систему</p>
+    {{end}}
+
+    <h2>If-Else If-Else</h2>
+    {{if eq .Count 0}}
+    <p>Пользователей нет</p>
+    {{else if lt .Count 10}}
+    <p>Пользователей меньше 10 ({{.Count}})</p>
+    {{else}}
+    <p>Пользователей 10 или более ({{.Count}})</p>
+    {{end}}
+
+    <h2>Сравнения</h2>
+    <ul>
+        {{if eq .Status "active"}}<li>Статус: активен</li>{{end}}
+        {{if ne .Status "blocked"}}<li>Не заблокирован</li>{{end}}
+        {{if gt .Count 5}}<li>Больше 5</li>{{end}}
+        {{if lt .Count 100}}<li>Меньше 100</li>{{end}}
+        {{if ge .Count 1}}<li>1 или больше</li>{{end}}
+        {{if le .Count 50}}<li>50 или меньше</li>{{end}}
+    </ul>
+
+    <h2>Логические операторы</h2>
+    {{if and .IsAdmin .IsLoggedIn}}
+    <p>Админ в системе</p>
+    {{end}}
+
+    {{if or .IsAdmin .IsModerator}}
+    <p>Есть права модерации</p>
+    {{end}}
+
+    {{if not .IsBlocked}}
+    <p>Доступ разрешён</p>
+    {{end}}
+</body>
+
+</html>

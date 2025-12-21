@@ -1,0 +1,25 @@
+{{ define "base" }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ template "title" . }}</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="/template/compose">Главная</a>
+            <a href="/template/compose/about">О нас</a>
+        </nav>
+    </header>
+    <main>{{ template "content" . }}</main>
+    <footer>
+        <p>© 2025 Go Learning Project</p>
+    </footer>
+</body>
+
+</html>
+{{ end }}
