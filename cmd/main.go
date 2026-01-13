@@ -12,8 +12,6 @@ import (
 
 	"github.com/AlexandrMaltsevYDX/go-cs/config"
 	"github.com/AlexandrMaltsevYDX/go-cs/internal/home"
-	"github.com/AlexandrMaltsevYDX/go-cs/internal/template"
-	"github.com/AlexandrMaltsevYDX/go-cs/internal/tpl"
 )
 
 func main() {
@@ -46,9 +44,11 @@ func main() {
 	app.Use(fiberzerolog.New(fiberzerolog.Config{
 		Logger: &log.Logger,
 	}))
+
+	// serve static files
+	app.Static("/", "./static")
+
 	home.NewHandler(app)
-	template.NewHandler(app)
-	tpl.NewHandler(app)
 
 	app.Listen(fmt.Sprintf(":%d", cfg.Server.Port))
 }
