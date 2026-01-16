@@ -48,8 +48,8 @@ func main() {
 
 	// example module
 	exampleRepo := example.NewExampleRepository(db)
-	exampleHandler := example.NewHandler(exampleRepo)
-	exampleHandler.RegisterRoutes(api)
+	exampleController := example.NewController(exampleRepo)
+	exampleController.RegisterRoutes(api)
 
 	app.Listen(fmt.Sprintf(":%d", cfg.Server.Port))
 }

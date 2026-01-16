@@ -2,20 +2,20 @@ package example
 
 import "github.com/gofiber/fiber/v2"
 
-type ExampleHandler struct {
+type ExampleController struct {
 	// fields
 
 	router     fiber.Router
 	Repository *ExampleRepository
 }
 
-func NewHandler(repository *ExampleRepository) *ExampleHandler {
-	return &ExampleHandler{
+func NewController(repository *ExampleRepository) *ExampleController {
+	return &ExampleController{
 		Repository: repository,
 	}
 }
 
-func (h *ExampleHandler) Create(c *fiber.Ctx) error {
+func (ctrl *ExampleController) Create(c *fiber.Ctx) error {
 	// implementation
 
 	// new(ExampleEntity) выделяет память в куче и возвращает указатель (*ExampleEntity).
@@ -34,7 +34,7 @@ func (h *ExampleHandler) Create(c *fiber.Ctx) error {
 
 	// Мы передаем структуру с Id=0 в репозиторий.
 	// Репозиторий должен проигнорировать этот 0 и позволить базе сгенерировать настоящий ID.
-	if err := h.Repository.addExample(entity); err != nil {
+	if err := ctrl.Repository.addExample(entity); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
