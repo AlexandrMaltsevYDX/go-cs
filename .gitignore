@@ -1,2 +1,4 @@
 /.env
 tmp
+*.log
+docs/router-refactoring.md

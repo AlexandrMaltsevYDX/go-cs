@@ -5,7 +5,7 @@ import (
 )
 
 // RegisterRoutes устанавливает маршруты для модуля example
-func (ctrl *ExampleController) RegisterRoutes(router fiber.Router) {
+func RegisterRoutes(router fiber.Router, ctrl *ExampleController) {
 	// Группируем маршруты под /example
 	// Если router передан как /api, то итоговый путь будет /api/example
 	route := router.Group("/example")

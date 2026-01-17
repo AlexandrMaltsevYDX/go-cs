@@ -9,7 +9,7 @@ import (
 	"github.com/rs/zerolog/log"
 
 	"github.com/AlexandrMaltsevYDX/go-cs/config"
-	"github.com/AlexandrMaltsevYDX/go-cs/internal/example"
+	"github.com/AlexandrMaltsevYDX/go-cs/internal/router"
 	"github.com/AlexandrMaltsevYDX/go-cs/pkg/database"
 )
 
@@ -40,16 +40,8 @@ func main() {
 		Logger: &log.Logger,
 	}))
 
-	// serve static files
-	app.Static("/", "./static")
-
-	// api group
-	api := app.Group("/api")
-
-	// example module
-	exampleRepo := example.NewExampleRepository(db)
-	exampleController := example.NewController(exampleRepo)
-	exampleController.RegisterRoutes(api)
+	// setup routes
+	router.SetupRoutes(app, db)
 
 	app.Listen(fmt.Sprintf(":%d", cfg.Server.Port))
 }

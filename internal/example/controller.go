@@ -5,7 +5,6 @@ import "github.com/gofiber/fiber/v2"
 type ExampleController struct {
 	// fields
 
-	router     fiber.Router
 	Repository *ExampleRepository
 }
 
